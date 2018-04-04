@@ -5,5 +5,5 @@ Currently only contains classification based on the discrete Hidden Markov model
 
 Command to run the HMM:
 
-$ python3.6 src/dhmm.py data/SC4001E0-PSG.edf data/annotations.txt
+$ python src/dhmm.py data/SC4001E0-PSG.edf data/annotations.txt
 
