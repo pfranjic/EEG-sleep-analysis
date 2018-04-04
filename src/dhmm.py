@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+import sys
 import numpy as np
 from sklearn.metrics import accuracy_score
 from hmm import HMM
-from file_tools import read_annotations_from_file
-from file_tools import load_epochs_from_file
-from features_tools import features_to_codebook
-from features_tools import extract_features_from_epochs
+from file_reading import read_annotations_from_file
+from file_reading import load_epochs_from_file
+from feature_extraction import features_to_codebook
+from feature_extraction import extract_features_from_epochs
 import warnings
 
 # Main
@@ -13,10 +13,10 @@ import warnings
 # ====
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
-    """ Process the commandline arguments. Two arguments are expected: The path
-    pointing to the .edf file and the path pointing to the annotations .txt file.
+    """ Process the commandline arguments. Two arguments are expected: The .edf file path
+    and the annotations .txt file path.
     """
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 3:
         edf_file = sys.argv[1]
         annotations_file = sys.argv[2]
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
         nr_groups = 20 # number of discrete features groups
         codebook, epoch_codes = features_to_codebook(features, nr_groups)
         
-        training_percentage = 0.8 
+        training_percentage = 0.8 # % of data used for training the model
         sleep_stages_train, sleep_stages_test = np.split(sleep_stages, [int(training_percentage * sleep_stages.shape[0])])         
         epoch_codes_train, epoch_codes_test = np.split(epoch_codes, [int(training_percentage * epoch_codes.shape[0])]) 
             
