@@ -1,9 +1,10 @@
+#!/usr/bin/env python
 import sys
 import numpy as np
 from sklearn.metrics import accuracy_score
 from hmm import HMM
-from file_reading import read_annotations_from_file
-from file_reading import load_epochs_from_file
+from file_handling import read_annotations_from_file
+from file_handling import load_epochs_from_file
 from feature_extraction import features_to_codebook
 from feature_extraction import extract_features_from_epochs
 import warnings
