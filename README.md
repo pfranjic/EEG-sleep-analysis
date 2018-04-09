@@ -5,5 +5,5 @@ Currently this project contains only classification based on the discrete Hidden
 
 Example command to run the HMM:
 
-$ python src/dhmm.py data/SC4001E0-PSG.edf data/annotations.txt
+$ python src/run.py data/SC4001E0-PSG.edf data/annotations.txt
 
