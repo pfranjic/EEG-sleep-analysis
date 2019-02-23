@@ -21,16 +21,17 @@ if __name__ == '__main__':
         edf_file = sys.argv[1]
         annotations_file = sys.argv[2]
 
-        sleep_stages_dict = {'Sleep_stage_W':5, 'Sleep_stage_1':3, 'Sleep_stage_2':2, 'Sleep_stage_3':1,
-            'Sleep_stage_4':0, 'Sleep_stage_R':4, 'Movement_time':6}
+        sleep_stages_dict = {'Sleep stage W':5, 'Sleep stage 1':3, 'Sleep stage 2':2, 'Sleep stage 3':1,
+            'Sleep stage 4':0, 'Sleep stage R':4, 'Movement time':6}
         sleep_stages = read_annotations_from_file(annotations_file, sleep_stages_dict)
+        print(sleep_stages)
         nr_states = len(np.unique(sleep_stages))
         # annotations contain long sequences of the awake state at the beginning and the end - those are removed
-        actual_sleep_epochs_indices = np.where(sleep_stages != sleep_stages_dict['Sleep_stage_W'])
+        actual_sleep_epochs_indices = np.where(sleep_stages != sleep_stages_dict['Sleep stage W'])
         sleep_start_index = actual_sleep_epochs_indices[0][0]
-        sleep_end_index = actual_sleep_epochs_indices[0][-1]
+        sleep_end_index = actual_sleep_epochs_indices[0][-1] + 1
         sleep_stages = sleep_stages[sleep_start_index:sleep_end_index]
-        
+
         epochs = load_epochs_from_file(edf_file, epoch_length = 30, fs = 100)
         epochs = epochs[sleep_start_index:sleep_end_index,:]
 
@@ -40,9 +41,10 @@ if __name__ == '__main__':
         codebook, epoch_codes = features_to_codebook(features, nr_groups)
         
         training_percentage = 0.8 # % of data used for training the model
-        sleep_stages_train, sleep_stages_test = np.split(sleep_stages, [int(training_percentage * sleep_stages.shape[0])])         
-        epoch_codes_train, epoch_codes_test = np.split(epoch_codes, [int(training_percentage * epoch_codes.shape[0])]) 
-            
+        nr_epochs = sleep_stages.shape[0]
+        sleep_stages_train, sleep_stages_test = np.split(sleep_stages, [int(training_percentage * nr_epochs)])         
+        epoch_codes_train, epoch_codes_test = np.split(epoch_codes, [int(training_percentage * nr_epochs)]) 
+
         hmm = HMM(nr_states, nr_groups)
         hmm.train(sleep_stages_train, epoch_codes_train)
         x=hmm.get_state_sequence(epoch_codes_test)
