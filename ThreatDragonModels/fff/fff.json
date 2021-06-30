@@ -1,0 +1,19 @@
+{
+  "summary": {
+    "title": "fff",
+    "owner": "fff",
+    "description": "fff"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "fff",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "diagramType": "STRIDE",
+        "id": 0
+      }
+    ],
+    "reviewer": "fff"
+  }
+}
